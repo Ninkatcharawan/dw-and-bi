@@ -40,20 +40,3 @@ docker-compose down
 python create_tables.py
 python etl.py
 ```
-## Add Repu Table 
-
-```sh
-table_drop_repo = "DROP TABLE IF EXISTS repo"  # Add drop table statement for repo
-```
-
-```sh
-table_create_repo = """
-    CREATE TABLE IF NOT EXISTS repo (
-        id int,
-        name text,
-        url text,
-        PRIMARY KEY(id)
-    )
-```
-
-Repu Table มีประโยชน์สำหรับการวิเคราะห์ในอนาคต เนื่องจากมีข้อมูลเกี่ยวกับพื้นที่เก็บข้อมูลภายในระบบ

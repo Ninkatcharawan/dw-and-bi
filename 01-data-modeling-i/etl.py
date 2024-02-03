@@ -5,7 +5,6 @@ from typing import List
 
 import psycopg2
 
-
 def get_files(filepath: str) -> List[str]:
     """
     Description: This function is responsible for listing the files in a directory

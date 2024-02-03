@@ -1,6 +1,5 @@
 ## Add Repu Table 
 
-
 table_drop_repo = "DROP TABLE IF EXISTS repo"  # Add drop table statement for repo
 
 table_create_repo = """
@@ -12,3 +11,6 @@ table_create_repo = """
     )
 
 Repu Table มีประโยชน์สำหรับการวิเคราะห์ในอนาคต เนื่องจากมีข้อมูลเกี่ยวกับพื้นที่เก็บข้อมูลภายในระบบ
+
+
+ถ้าเอา Data Model นี้ไปใช้เราสามารถวิเคราะห์อะไรบ้าง

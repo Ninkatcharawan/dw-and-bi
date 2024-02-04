@@ -1,6 +1,16 @@
-## Add Repu Table 
+etl.py 
 
-table_drop_repo = "DROP TABLE IF EXISTS repo"  # Add drop table statement for repo
+1. pip install psycopg2 คือคำสั่ง install postgres
+2. path to Directory
+3. docker  compose up จะสร้าง postgres และ adminer ขึ้นมา
+
+**Run "Create table" Before run ETL if we want the postgres show the data once we back to edit
+
+4. python create_tables.py ใช้รันเวลามีการอัปเดตข้อมูลในตารางต่าง ๆ ตารางจะมีการอัปเดต 
+
+เช่น Add Repu Table 
+
+ด้วยโค้ด: 
 
 table_create_repo = """
     CREATE TABLE IF NOT EXISTS repo (
@@ -10,8 +20,4 @@ table_create_repo = """
         PRIMARY KEY(id)
     )
 
-Repu Table มีประโยชน์สำหรับการวิเคราะห์ในอนาคต เนื่องจากมีข้อมูลเกี่ยวกับพื้นที่เก็บข้อมูลภายในระบบ
-
-
-
-ถ้าเอา Data Model นี้ไปใช้เราสามารถวิเคราะห์อะไรบ้าง
+Repu Table มีประโยชน์สำหรับการวิเคราะห์ในอนาคต เนื่องจากมีข้อมูลเกี่ยวกับพื้นที่เก็บข้อมูลภายในระบบ 

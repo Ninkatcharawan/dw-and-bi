@@ -31,7 +31,6 @@ def process(cur, conn, filepath):
             data = json.loads(f.read())
             for each in data:
                 # Print some sample data
-                
                 if each["type"] == "IssueCommentEvent":
                     print(
                         each["id"], 
@@ -54,19 +53,30 @@ def process(cur, conn, filepath):
                         each["created_at"],
                     )
 
-                # Insert data into tables here
-                insert_statement = f"""
+                # Insert data into actors table
+                actor_insert_statement = f"""
                     INSERT INTO actors (
                         id,
                         login
                     ) VALUES ({each["actor"]["id"]}, '{each["actor"]["login"]}')
                     ON CONFLICT (id) DO NOTHING
                 """
-                # print(insert_statement)
-                cur.execute(insert_statement)
+                print(actor_insert_statement)
+                cur.execute(actor_insert_statement)
 
-                # Insert data into tables here
-                insert_statement = f"""
+                # Insert data into repo table
+                repo_insert_statement = f"""
+                    INSERT INTO repo (
+                        id,
+                        name,
+                        url
+                    ) VALUES ({each["repo"]["id"]}, '{each["repo"]["name"]}', '{each["repo"]["url"]}')
+                    ON CONFLICT (id) DO NOTHING
+                """
+                cur.execute(repo_insert_statement)
+
+                # Insert data into events table
+                event_insert_statement = f"""
                     INSERT INTO events (
                         id,
                         type,
@@ -74,10 +84,10 @@ def process(cur, conn, filepath):
                     ) VALUES ('{each["id"]}', '{each["type"]}', '{each["actor"]["id"]}')
                     ON CONFLICT (id) DO NOTHING
                 """
-                # print(insert_statement)
-                cur.execute(insert_statement)
+                cur.execute(event_insert_statement)
 
                 conn.commit()
+
 
 
 def main():

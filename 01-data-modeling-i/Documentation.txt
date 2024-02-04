@@ -1,16 +1,19 @@
-etl.py 
-
-1. pip install psycopg2 คือคำสั่ง install postgres
-2. path to Directory
-3. docker  compose up จะสร้าง postgres และ adminer ขึ้นมา
-
+1. Install postgres -> pip install psycopg2 คื
+2. path to Directory 01-data-modeling-i -> cd 01-data-modeling-i/
+3 Running Postgres -> docker-compose up
+4. docker compose up จะสร้าง postgres และ adminer ขึ้นมา
+5. Running ETL Scripts
+        python create_tables.py
+        python etl.py
 **Run "Create table" Before run ETL if we want the postgres show the data once we back to edit
 
-4. python create_tables.py ใช้รันเวลามีการอัปเดตข้อมูลในตารางต่าง ๆ ตารางจะมีการอัปเดต 
+python create_tables.py ใช้รันเวลามีการอัปเดตข้อมูลในตารางต่าง ๆ ตารางจะมีการอัปเดต 
 
-เช่น Add Repu Table 
+เช่น Add Repu Table และ Insert data 
 
 ด้วยโค้ด: 
+
+1. Add Repu Table
 
 table_create_repo = """
     CREATE TABLE IF NOT EXISTS repo (
@@ -21,3 +24,46 @@ table_create_repo = """
     )
 
 Repu Table มีประโยชน์สำหรับการวิเคราะห์ในอนาคต เนื่องจากมีข้อมูลเกี่ยวกับพื้นที่เก็บข้อมูลภายในระบบ 
+
+2. Insert
+เนื่องจากได้เพิ่ม Table repo เข้ามาจึงได้เพิ่ม Insert repu เข้ามาใน etl.py ด้วยโค้ด :
+
+# Insert data into repo table
+                repo_insert_statement = f"""
+                    INSERT INTO repo (
+                        id,
+                        name,
+                        url
+                    ) VALUES ({each["repo"]["id"]}, '{each["repo"]["name"]}', '{each["repo"]["url"]}')
+                    ON CONFLICT (id) DO NOTHING
+                """
+                cur.execute(repo_insert_statement) 
+
+cur.execute(repo_insert_statement)  เป็นคำสั่ง Execute the SQL INSERT statement
+
+
+Note:  เราใช้ข้อมูลจาก JSON ไฟล์เพื่อสร้างคำสั่ง SQL INSERT เพื่อแทรกข้อมูลลงในตารางของฐานข้อมูล PostgreSQL โดยใช้ข้อมูลที่ได้จาก JSON ไฟล์
+(ใช้ JSON ไฟล์เพื่อดึงข้อมูลและนำเข้าไปยังฐานข้อมูล PostgreSQL ด้วยโค้ด Python ที่ใช้ไลบรารี psycopg2 เพื่อเชื่อมต่อและทำงานกับฐานข้อมูล PostgreSQL)
+
+อธิบายโค้ดเพิ่มเติม:
+def process(cur, conn, filepath):
+    # อ่านไฟล์ JSON จากตำแหน่งที่กำหนด
+    all_files = get_files(filepath)
+
+    for datafile in all_files:
+        with open(datafile, "r") as f:
+            data = json.loads(f.read())
+            for each in data:
+                # สร้างคำสั่ง SQL INSERT เพื่อแทรกข้อมูลลงในตาราง actors
+                actor_insert_statement = f"""
+                    INSERT INTO actors (
+                        id,
+                        login
+                    ) VALUES ({each["actor"]["id"]}, '{each["actor"]["login"]}')
+                    ON CONFLICT (id) DO NOTHING
+                """
+                # execute คำสั่ง SQL INSERT เข้าสู่ฐานข้อมูล PostgreSQL
+                cur.execute(actor_insert_statement)
+
+                # commit การเปลี่ยนแปลงไปยังฐานข้อมูล
+                conn.commit()

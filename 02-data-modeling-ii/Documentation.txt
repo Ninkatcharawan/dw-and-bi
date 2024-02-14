@@ -1,0 +1,8 @@
+1. Install cassandra -> pip install cassandra-driver
+2. path to Directory 02-data-modeling-ii -> cd 02-data-modeling-ii/
+3. Running cassandra -> docker-compose up
+4. รัน docker compose up 
+5. Running ETL Scripts
+        python etl.py
+pip install cassandra-driver
+

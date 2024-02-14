@@ -152,7 +152,7 @@ def create_tables(cur: PostgresCursor, conn: PostgresConn) -> None:
     for query in create_table_queries:
         cur.execute(query)
         conn.commit()
-
+        
 def main():
     """
     - Drops (if exists) and Creates the sparkify database.

@@ -4,7 +4,8 @@ cd /workspaces/dw-and-bi/02-data-modeling-ii
 2. Create a Python Virtual Environment named 'ENV' for isolating project dependencies
 python -m venv ENV
 
-3. Activate the Virtual Environment to use the isolated Python environment
+3. Activate the Virtual Environment to use the isolated Python environment 
+ใช้ Virtual Environment สำหรับแต่ละโปรเจ็คแยกกัน เพื่อจัดการเวอร์ชั่นโปรเจ็ตต่าง ๆ ให้บนเครื่องเราและข้าวนอกตรงกัน 
 source ENV/bin/activate
 
 4. Install the Cassandra driver library for Python, used for interacting with Cassandra databases

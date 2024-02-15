@@ -1,17 +1,57 @@
-# Change Directory to your project folder named '02-data-modeling-ii'
+1. Change Directory to your project folder named '02-data-modeling-ii'
 cd /workspaces/dw-and-bi/02-data-modeling-ii
 
-# Create a Python Virtual Environment named 'ENV' for isolating project dependencies
+2. Create a Python Virtual Environment named 'ENV' for isolating project dependencies
 python -m venv ENV
 
-# Activate the Virtual Environment to use the isolated Python environment
+3. Activate the Virtual Environment to use the isolated Python environment
 source ENV/bin/activate
 
-# Install the Cassandra driver library for Python, used for interacting with Cassandra databases
+4. Install the Cassandra driver library for Python, used for interacting with Cassandra databases
 pip install cassandra-driver
 
-# Install project dependencies listed in the 'requirements.txt' file
+5. Install project dependencies listed in the 'requirements.txt' file
 pip install -r requirements.txt
 
 # Run the ETL (Extract, Transform, Load) script named 'etl.py' to process your data
 python etl.py
+
+-----------------------------------------------------------------------------------------------
+Key considerations for modeling data in Cassandra include:
+
+Primary Key Design: Cassandra relies heavily on the primary key for data 
+distribution and retrieval. Your choice of primary key (id and type in this case) 
+should reflect the access patterns of your application.
+
+Denormalization: Cassandra encourages denormalization to optimize read performance. 
+You might duplicate data across tables or within the same table to avoid joins and facilitate efficient queries.
+
+Query-Driven Modeling: Your data model should be designed based on the queries you anticipate 
+running against the database. Design your tables to fit your query patterns rather than trying to enforce normalization.
+
+Partitioning and Clustering Keys: Understanding how data is partitioned 
+across nodes and how it's clustered within each partition is crucial for 
+efficient data retrieval and distribution.
+-----------------------------------------------------------------------------------------------
+
+อธิบายการออกแบบ primary key และ clustering columns
+
+Partition Key:
+The first part of the primary key is the partition key. It is responsible for data distribution across the cluster.
+Data with the same partition key are stored together on the same node.
+Choosing the right partition key is critical for even data distribution and efficient query performance.
+
+Clustering Columns (Optional):
+Following the partition key, you can have clustering columns that define the sorting order within each partition.
+Clustering columns are only applicable if your table has a composite primary key (more than one column).
+They determine the physical order of data within each partition, affecting the performance of range queries.
+-----------------------------------------------------------------------------------------------
+
+How They Work Together:
+Single Primary Key:
+If your primary key consists of only one column, that column serves as the partition key.
+Data is distributed across the cluster based on the hashed value of this column.
+
+Composite Primary Key:
+If your primary key consists of multiple columns, the first column(s) serve as the partition key, and the subsequent columns act as clustering columns.
+Data with the same partition key is stored together on the same node, and within each partition, data is sorted based on the clustering columns.

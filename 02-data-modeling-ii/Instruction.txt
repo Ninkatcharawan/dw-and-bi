@@ -1,0 +1,76 @@
+1. **Importing Libraries**:
+
+```python
+import glob
+import json
+import os
+from typing import List
+from cassandra.cluster import Cluster
+
+```
+
+2. **Query Definitions**:
+
+```python
+table_drop = "DROP TABLE events"
+
+table_create = """
+CREATE TABLE IF NOT EXISTS events
+(
+    id text,
+    type text,
+    public boolean,
+    PRIMARY KEY (
+        id,
+        type
+    )
+)
+"""
+
+```
+
+3. **Functions for Table Management**:
+
+```python
+def drop_tables(session):
+    ...
+
+def create_tables(session):
+    ...
+
+```
+
+4. **Data Processing Functions**:
+
+```python
+def get_files(filepath: str) -> List[str]:
+    ...
+
+def process(session, filepath):
+    ...
+
+```
+
+5. **Sample Data Insertion Function**:
+
+```python
+def insert_sample_data(session):
+    ...
+
+```
+
+1. **Main Function**:
+
+```python
+def main():
+    ...
+
+```
+
+6. **Execution**:
+
+```python
+if __name__ == "__main__":
+    main()
+
+```

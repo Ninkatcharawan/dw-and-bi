@@ -1,7 +1,4 @@
 1. Importing Libraries
-python
-
-Copy code
 import glob import json import os from typing import List from cassandra.cluster import Cluster
 	•	This block imports necessary libraries:
 	•	glob: For file path manipulation and file listing.
@@ -10,36 +7,21 @@ import glob import json import os from typing import List from cassandra.cluster
 	•	List from typing: For type hinting.
 	•	Cluster from cassandra.cluster: For connecting to the Cassandra cluster.
 2. Query Definitions
-python
-
-Copy code
 table_drop = "DROP TABLE events" table_create = """ CREATE TABLE IF NOT EXISTS events ( id text, type text, public boolean, PRIMARY KEY ( id, type ) ) """
 	•	These are queries for dropping and creating the events table in Cassandra.
 	•	The table has columns id, type, and public, with a composite primary key on id and type.
 3. Functions for Table Management
-python
-
-Copy code
 def drop_tables(session): ... def create_tables(session): ...
 	•	These functions handle dropping and creating tables, respectively.
 	•	They execute the defined queries (table_drop and table_create) using the provided Cassandra session.
 4. Data Processing Functions
-python
-
-Copy code
 def get_files(filepath: str) -> List[str]: ... def process(session, filepath): ...
 	•	get_files(filepath) lists all JSON files in a directory specified by filepath.
 	•	process(session, filepath) reads each JSON file, extracts data, and potentially inserts it into the Cassandra table.
 5. Sample Data Insertion Function
-python
-
-Copy code
 def insert_sample_data(session): ...
 	•	This function inserts sample data into the events table. It's currently hardcoded but can be modified to insert dynamic data.
 6. Main Function
-python
-
-Copy code
 def main(): ...
 	•	Establishes a connection to the Cassandra cluster and keyspace.
 	•	Creates the keyspace if it doesn't exist and sets the keyspace to github_events.
@@ -47,8 +29,5 @@ def main(): ...
 	•	Optionally, it inserts sample data or performs data processing.
 	•	Executes a select query to retrieve data from the events table and prints the results.
 7. Execution
-python
-
-Copy code
 if __name__ == "__main__": main()
 	•	This block ensures that the main() function is executed when the script is run directly.

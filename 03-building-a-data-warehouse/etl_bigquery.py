@@ -36,13 +36,13 @@ def main(dataset_id, table_id, file_path):
     # keyfile = os.environ.get("KEYFILE_PATH")
     #
     # แต่เพื่อความง่ายเราสามารถกำหนด File Path ไปได้เลยตรง ๆ
-    keyfile = "YOUR_KEYFILE_PATH"
+    keyfile = "forbigquery.json"
     service_account_info = json.load(open(keyfile))
     credentials = service_account.Credentials.from_service_account_info(service_account_info)
 
     # โค้ดส่วนนี้จะเป็นการสร้าง Client เชื่อมต่อไปยังโปรเจค GCP ของเรา โดยใช้ Credentials ที่
     # สร้างจากโค้ดข้างต้น
-    project_id = "YOUR_GCP_PROJECT"
+    project_id = "data-warehouse-class-415515"
     client = bigquery.Client(
         project=project_id,
         credentials=credentials,
@@ -85,4 +85,4 @@ if __name__ == "__main__":
                 for each in data:
                     writer.writerow([each["id"], each["type"]])
 
-    main(dataset_id, table_id, file_path)
+    main(dataset_id = "github", table_id ="events", file_path="github_events.csv")

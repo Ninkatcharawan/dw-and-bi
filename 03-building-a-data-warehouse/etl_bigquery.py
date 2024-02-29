@@ -57,6 +57,7 @@ def main(dataset_id, table_id, file_path):
         schema=[
             bigquery.SchemaField("id", bigquery.SqlTypeNames.STRING),
             bigquery.SchemaField("type", bigquery.SqlTypeNames.STRING),
+            bigquery.SchemaField("actor", bigquery.SqlTypeNames.STRING),
         ],
     )
 
@@ -83,6 +84,9 @@ if __name__ == "__main__":
             with open(datafile, "r") as f:
                 data = json.loads(f.read())
                 for each in data:
-                    writer.writerow([each["id"], each["type"]])
+                    writer.writerow([
+                        each["id"], 
+                        each["type"],
+                        each["actor"]["login"],])
 
     main(dataset_id = "github", table_id ="events", file_path="github_events.csv")

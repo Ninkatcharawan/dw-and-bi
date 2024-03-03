@@ -3,7 +3,6 @@ import glob
 import json
 import os
 from typing import List
-
 from google.cloud import bigquery
 from google.oauth2 import service_account
 

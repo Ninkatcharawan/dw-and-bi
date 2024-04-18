@@ -1,32 +1,32 @@
 from airflow import DAG
 from airflow.utils import timezone
 from airflow.operators.python import PythonOperator
-
+from airflow.operators.empty import EmptyOperator
+from airflow.operators.bash import BashOperator
 
 def _say_hello():
-    return "Hello!"
-
+    print("hello")
 
 with DAG(
     "hello",
-    start_date=timezone.datetime(2022, 11, 1),
-    schedule="@daily",
-    tags=["workshop"],
+    start_date=timezone.datetime(2024, 3, 23),
+    schedule=None,
+    tags=["DS525"],
 ):
+
+    start = EmptyOperator(task_id"start")
+
+    echo_hello = BashOperator(
+        task_id = "echo_hello",
+        bash_command="echon 'hello'",
+    )
 
     say_hello = PythonOperator(
         task_id="say_hello",
-        python_callable=_say_hello,
+        python_callable=_say_hello
     )
+    
+    end = EmptyOperator(task_id="end")
 
-    say_hello_2 = PythonOperator(
-        task_id="say_hello_2",
-        python_callable=_say_hello,
-    )
-
-    say_hello_3 = PythonOperator(
-        task_id="say_hello_3",
-        python_callable=_say_hello,
-    )
-
-    say_hello >> say_hello_2 >> say_hello_3
+    start >> end_hello >> end
+    start >> say_hello >> end

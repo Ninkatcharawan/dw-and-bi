@@ -12,4 +12,4 @@ with DAG(
     my_first_task = EmptyOperator(task_id="my_first_task")
     my_second_task = EmptyOperator(task_id="my_second_task")
 
-    my_first_task >> my my_second_task #รันอันแรกก่อน ค่อยรันอันที่ 2 
+    my_first_task >> my_second_task #รันอันแรกก่อน ค่อยรันอันที่ 2
